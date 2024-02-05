@@ -30,7 +30,7 @@ module.exports = defineConfig({
         uploadToArgos: !!process.env.CI,
 
         // Set your Argos token (required if not using GitHub Actions).
-        token: "ca23874f9d678105d51bc564aed5c3aac4b05403",
+        token: "7dd1fc1e78f24e02b50ae3f9dd584c09911eb779",
       },
     ],
   ],
