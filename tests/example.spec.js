@@ -37,7 +37,7 @@ const pages = [
 
 test("screenshot pages", async ({ page }, workerInfo) => {
   for (const { name, path } of pages) {
-    const browserName = workerInfo.project.name;
+    const browserName = workerInfo.project.use.browserName?.split(" ").join("-").toLocaleLowerCase();
     await page.goto(`${baseUrl}${path}`);
     await argosScreenshot(page, `${name}-${browserName}`);
   }
