@@ -59,25 +59,24 @@ const pages = [
 // });
 
 test.describe("screenshot pages", () => {
-  const baseUrl = "https://www.ets.org/";
-  const pages = [
-    { name: "homepage", path: "/" },
-    { name: "toefl", path: "/toefl.html" },
-    { name: "products", path: "/products.html" },
-    { name: "contact", path: "/contact.html" },
-  ];
-  for (const { name, path } of pages) {
-    test(`${name} page screenshot`, async ({ page }, workerInfo) => {
 
-        await page.goto(`${baseUrl}${path}`);
-        await page.waitForTimeout(15000);
-        await argosScreenshot(page, `${name}`, {
-          viewports: [
-            { width: 1920, height: 1080 },
-          ],
-          fullPage: true,
-        });
+  let count = 1;
+  for (const etsPage of etsPages) {
+    const name = etsPage["Item Title"]
+      .replace(/[^a-zA-Z0-9\s]/g, "")
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+    const path = etsPage["Existing url"];
+
+    test(`page screenshot ${count}`, async ({ page }, workerInfo) => {
+      await page.goto(`${path}`);
+      await page.waitForTimeout(20000);
+      await argosScreenshot(page, `${name}`, {
+        viewports: [{ width: 1920, height: 1080 }],
+        fullPage: true,
+      });
     });
+    count++;
   }
 });
 
