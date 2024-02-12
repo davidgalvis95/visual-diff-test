@@ -1,7 +1,7 @@
 // @ts-check
-const { test, expect } = require('@playwright/test');
+const { test, expect } = require("@playwright/test");
 import { argosScreenshot } from "@argos-ci/playwright";
-
+import { etsPages } from "./csvjson";
 
 // test('has title', async ({ page }) => {
 //   await page.goto('https://playwright.dev/');
@@ -35,10 +35,93 @@ const pages = [
   { name: "contact", path: "/contact.html" },
 ];
 
-test("screenshot pages", async ({ page }, workerInfo) => {
+// test("screenshot pages", async ({ page }, workerInfo) => {
+//   for (const { name, path } of pages) {
+//     // const browserName = workerInfo.project.use.browserName
+//     //   ?.split(" ")
+//     //   .join("-")
+//     //   .toLocaleLowerCase();
+
+//     // await expect(
+//     //   page.locator('.all-products__results__description__card').first()
+//     // ).toBeVisible();    // const browserName = workerInfo.project.use.browserName;
+//     await page.goto(`${baseUrl}${path}`);
+//     await page.waitForTimeout(5000);
+//     // await page.on("load", (data) => {
+//     // argosScreenshot(page, `${name}-${browserName}`);
+//     await argosScreenshot(page, `${name}`, {
+//       viewports: [
+//         { width: 1920, height: 1080 }, // Direct dimensions
+//       ],
+//       fullPage: true,
+//     });
+//   }
+// });
+
+test.describe("screenshot pages", () => {
+  const baseUrl = "https://www.ets.org/";
+  const pages = [
+    { name: "homepage", path: "/" },
+    { name: "toefl", path: "/toefl.html" },
+    { name: "products", path: "/products.html" },
+    { name: "contact", path: "/contact.html" },
+  ];
   for (const { name, path } of pages) {
-    const browserName = workerInfo.project.use.browserName?.split(" ").join("-").toLocaleLowerCase();
-    await page.goto(`${baseUrl}${path}`);
-    await argosScreenshot(page, `${name}-${browserName}`);
+    test(`${name} page screenshot`, async ({ page }, workerInfo) => {
+
+        await page.goto(`${baseUrl}${path}`);
+        await page.waitForTimeout(15000);
+        await argosScreenshot(page, `${name}`, {
+          viewports: [
+            { width: 1920, height: 1080 },
+          ],
+          fullPage: true,
+        });
+    });
   }
 });
+
+// test("screenshot pages 2", async ({ page }, workerInfo) => {
+//   for (const { name, path } of pages) {
+//     // const browserName = workerInfo.project.use.browserName
+//     //   ?.split(" ")
+//     //   .join("-")
+//     //   .toLocaleLowerCase();
+
+//     // await expect(
+//     //   page.locator('.all-products__results__description__card').first()
+//     // ).toBeVisible();    // const browserName = workerInfo.project.use.browserName;
+//     await page.goto(`${baseUrl}${path}`);
+//     await page.waitForTimeout(5000);
+//     // await page.on("load", (data) => {
+//     // argosScreenshot(page, `${name}-${browserName}`);
+//     await argosScreenshot(page, `${name}`, {
+//       viewports: [
+//         { width: 1920, height: 1080 }, // Direct dimensions
+//       ],
+//       fullPage: true,
+//     });
+//   }
+// });
+
+// test("screenshot pages 1", async ({ page }, workerInfo) => {
+//   const builtPages = [];
+//   for (const { name, path } of pages) {
+//     const x = await page.goto(`${baseUrl}${path}`);
+//     // await page.on("load", (data) => {
+//     // argosScreenshot(page, `${name}-${browserName}`);\
+//     const builtPage = { ...page };
+//     builtPages.push({ builtPage, name });
+//   }
+
+//   await page.waitForTimeout(5000);
+
+//   for (const builtPage of builtPages) {
+//     await argosScreenshot(builtPage.builtPage, `${builtPage.name}`, {
+//       viewports: [
+//         { width: 1920, height: 1080 }, // Direct dimensions
+//       ],
+//       fullPage: true,
+//     });
+//   }
+// });
